@@ -11,7 +11,7 @@ int main() {
   Array arr;
   int second = 0;
 
-  file = fopen("./input.txt", "r");
+  file = fopen("./1.input", "r");
 
   if (file == NULL) {
     printf("file can't be opened \n");
