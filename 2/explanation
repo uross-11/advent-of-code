@@ -1,0 +1,47 @@
+1st part:
+
+ascii 'A' - 'X', 'B' - 'X' ...
+-23 to remove difference from same values (a-x, b-y, c-z = 23)
++n and %n (n - number of values(x, y, z) = 3)
+
+  A  B  C                A B C          A B C
+
+X 23 22 21 (-23 +3)    X 3 2 1 (%3)   X 0 2 1
+Y 24 23 22 ----------> Y 4 3 2 -----> Y 1 0 2
+Z 25 24 23             Z 5 4 3        Z 2 1 0
+
+2nd part:
+ascii 'A' + 'X', 'B' + 'X' ...
+-ascii 'A' - 'X'
+%n (n -  number of values(x, y, z) = 3)
+
+   A   B   C                     A B C                 A B C
+                                                           
+X 153 154 155   (-65 - 88)    X  0 1 2    (%3)      X  0 1 2
+Y 154 155 156 ------------>   Y  1 2 3 --------->   Y  1 2 0
+Z 155 156 157                 Z  2 3 4              Z  2 0 1
+
+                                                       0 - scissors
+                                                       1 - rock
+                                                       2 - paper
+
+A X = A Z = 0 + 3 = 3
+C Y = C Z = 3 + 3 = 6
+B Z = B Z = 6 + 3 = 9
+
+
+A Y = A X = 3 + 1 = 4
+B X = B X = 0 + 1 = 1
+C Z = C X = 6 + 1 = 7
+
+X - lose
+Y - draw
+Z - win
+
+win - +6
+draw - +3
+lose - +0
+
+rock - +1
+paper - +2
+scissors - +3
