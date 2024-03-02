@@ -10,6 +10,10 @@ int main() {
   char line[MAX_LINE];
   FILE *file = fopen("3.input", "r");
 
+  if (file == NULL) {
+    printf("file can't be opened \n");
+  }
+
   char seen_3lines[3][53] = {0};
 
   int sum = 0;
