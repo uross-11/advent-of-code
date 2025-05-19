@@ -96,6 +96,29 @@ void sum_dirs(dir *d, unsigned long max_size, unsigned long *sum) {
   }
 }
 
+void list_dirs(dir *d, dir **dirs, int *count) {
+  dirs[(*count)++] = d;
+
+  for (int i = 0; i < d->entries->size; i++) {
+    entry *e = d->entries->data[i];
+    if (e->type == TYPE_DIR) {
+      list_dirs(e->dir, dirs, count);
+    }
+  }
+}
+
+int compare(const void *a, const void *b) {
+  dir *dir_a = *(dir **)a;
+  dir *dir_b = *(dir **)b;
+
+  if (dir_a->size < dir_b->size)
+    return -1;
+  else if (dir_a->size > dir_b->size)
+    return 1;
+  else
+    return 0;
+}
+
 int main() {
   FILE *file = fopen("7.input", "r");
 
@@ -170,11 +193,27 @@ int main() {
     }
   }
 
-  print_all(root, 0);
+  // print_all(root, 0);
 
   unsigned long solution_1 = 0;
   sum_dirs(root, 100000, &solution_1);
   printf("solution 1: %lu\n", solution_1);
+
+  unsigned long total = 70000000;
+  unsigned long available = total - root->size;
+  unsigned long needed = 30000000;
+
+  dir **dirs = malloc(sizeof(dir *) * 100);
+  int dir_count = 0;
+  list_dirs(root, dirs, &dir_count);
+  qsort(dirs, dir_count, sizeof(dir *), compare);
+
+  for (int i = 0; i < dir_count; i++) {
+    if (dirs[i]->size + available >= needed) {
+      printf("solution 2: %lu\n", dirs[i]->size);
+      break;
+    }
+  }
 
   return 0;
 }
