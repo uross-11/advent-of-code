@@ -1,0 +1,17 @@
+{
+  "name": "@uross-11/advent-of-code",
+  "version": "1.0.0",
+  "description": "Advent of Code 2024 - TypeScript",
+  "license": "MIT",
+  "author": "uross-11",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:test": "node dist/index.js --test=true"
+  }
+}
