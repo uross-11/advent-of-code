@@ -1,17 +1,7 @@
-import { readFileSync } from "node:fs";
-import { importPathFuckery, printOutput } from "../utils.js";
+import { Solution } from "../index.js";
 
-function main(test: boolean) {
-  const file = readFileSync(
-    importPathFuckery(`src/day_03/${test ? "test" : "input"}`),
-    "utf8",
-  ).trim();
-
-  let test2: string | null = null;
-
-  if (test) {
-    test2 = readFileSync(importPathFuckery("src/day_03/test2"), "utf8").trim();
-  }
+function main(f: string): Solution {
+  const file = f;
 
   const p1 = [...file.matchAll(new RegExp(/mul\(\s*-?\d+\s*,\s*-?\d+\s*\)/g))]
     .map((m) =>
@@ -28,11 +18,8 @@ function main(test: boolean) {
   );
   let enabled = true;
   let p2 = 0;
-  const file2 = test ? test2 : file;
 
-  if (!file2) return console.error("No input file found for day 03");
-
-  for (const match of file2.matchAll(expression)) {
+  for (const match of file.matchAll(expression)) {
     const str = match[0];
     if (str === "do()") enabled = true;
     else if (str === "don't()") enabled = false;
@@ -45,7 +32,7 @@ function main(test: boolean) {
     }
   }
 
-  printOutput("03", p1, p2);
+  return { p1, p2 };
 }
 
 export default main;

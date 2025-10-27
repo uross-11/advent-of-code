@@ -1,13 +1,7 @@
-import { readFileSync } from "node:fs";
-import { importPathFuckery, printOutput } from "../utils.js";
+import { Solution } from "../index.js";
 
-function main(test: boolean) {
-  const file = readFileSync(
-    importPathFuckery(`src/day_01/${test ? "test" : "input"}`),
-    "utf8",
-  )
-    .trim()
-    .split(/\r?\n/);
+function main(f: string): Solution {
+  const file = f.split(/\r?\n/);
 
   let p1 = 0;
   let p2 = 0;
@@ -41,7 +35,7 @@ function main(test: boolean) {
     p2 += num * count;
   }
 
-  printOutput("01", p1, p2);
+  return { p1, p2 };
 }
 
 export default main;

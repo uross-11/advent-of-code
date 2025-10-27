@@ -1,5 +1,4 @@
-import { readFileSync } from "node:fs";
-import { importPathFuckery, printOutput } from "../utils.js";
+import { Solution } from "../index.js";
 
 enum Order {
   ASC,
@@ -28,13 +27,8 @@ function isSafe(arr: number[]): boolean {
   return true;
 }
 
-function main(test: boolean) {
-  const file = readFileSync(
-    importPathFuckery(`src/day_02/${test ? "test" : "input"}`),
-    "utf8",
-  )
-    .trim()
-    .split(/\r?\n/);
+function main(f: string): Solution {
+  const file = f.split(/\r?\n/);
 
   let p1 = 0;
   let p2 = 0;
@@ -62,9 +56,7 @@ function main(test: boolean) {
     if (dampened) p2++;
   }
 
-  printOutput("02", p1, p2);
+  return { p1, p2 };
 }
 
 export default main;
-
-// xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))

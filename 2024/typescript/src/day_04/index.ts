@@ -1,5 +1,4 @@
-import { readFileSync } from "node:fs";
-import { importPathFuckery, printOutput } from "../utils.js";
+import { Solution } from "../index.js";
 
 // y, x
 const dir = [
@@ -29,13 +28,8 @@ function search(
   return search(grid, word, y + dy, x + dx, dy, dx, index + 1);
 }
 
-function main(test: boolean) {
-  const file = readFileSync(
-    importPathFuckery(`src/day_04/${test ? "test" : "input"}`),
-    "utf8",
-  )
-    .trim()
-    .split(/\r?\n/);
+function main(f: string): Solution {
+  const file = f.split(/\r?\n/);
 
   let p1 = 0;
   let p2 = 0;
@@ -73,7 +67,7 @@ function main(test: boolean) {
     }
   }
 
-  printOutput("04", p1, p2);
+  return { p1, p2 };
 }
 
 export default main;
