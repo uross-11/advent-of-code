@@ -12,6 +12,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "start:test": "node dist/index.js --test=true"
+    "start:test": "node dist/index.js --test=true",
+    "aoc": "npm run build && npm run start",
+    "aoc:test": "npm run build && npm run start:test"
   }
 }
