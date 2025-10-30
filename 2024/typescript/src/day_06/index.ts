@@ -58,8 +58,8 @@ function moveAndCheckLoop(
 }
 
 function main(f: string): Solution {
-  let p1 = 0,
-    p2 = 0;
+  let p1 = 0;
+  let p2 = 0;
 
   const map: string[][] = [];
   const guardPos: number[] = [];
