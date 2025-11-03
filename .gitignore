@@ -4,3 +4,6 @@
 
 **/input
 **/test
+
+**/*.input
+**/*.test
