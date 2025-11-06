@@ -58,11 +58,28 @@ function explore(
   return area;
 }
 
-function groupFences(fences: Set<string>): Set<string> {
-  const result = new Set<string>();
-  const visited = new Set<string>();
+/*
 
-  console.log(fences);
+  For every single border item, traverse in each direction
+  and if there are same side borders,
+  exclude them with Set.prototype.difference().
+
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference
+
+  R  R  R  R  I  I  C  C  F  F
+  R  R  R  R  I  I  C  C  C  F
+  V  V  R  R  R  C  C  F  F  F
+  V  V  R  C  C  C  J  F  F  F
+  V  V  V  V  C  J  J  C  F (E) <-- x, y here
+  V  V  I  V  C  C  J  J (E)(E) [ *
+  V  V  I  I  I  C  J  J (E)(E)   *
+  M  I  I  I  I  I  J  J (E)(E)   *
+  M  I  I  I  S  I  J (E)(E)(E)   *
+  M  M  M  I  S  S  J (E)(E)(E)   * ] <-- added to visited, removed in diff
+
+*/
+function groupFences(fences: Set<string>): Set<string> {
+  const visited = new Set<string>();
 
   for (const fence of fences.values()) {
     const [yx, side] = fence.split(":");
@@ -70,33 +87,26 @@ function groupFences(fences: Set<string>): Set<string> {
 
     if (visited.has(fence)) continue;
 
-    visited.add(fence);
-
     if (side === "top" || side === "bottom") {
-      let i = 1;
       for (const dir of [-1, 1]) {
-        const key = `${y},${Number(x) + dir * i}:${side}`;
-
-        console.log(key);
-
-        while (fences.has(key)) {
-          visited.add(key);
+        let i = 1;
+        while (fences.has(`${y},${Number(x) + dir * i}:${side}`)) {
+          visited.add(`${y},${Number(x) + dir * i}:${side}`);
           i++;
         }
       }
     } else {
+      for (const dir of [-1, 1]) {
+        let i = 1;
+        while (fences.has(`${Number(y) + dir * i},${x}:${side}`)) {
+          visited.add(`${Number(y) + dir * i},${x}:${side}`);
+          i++;
+        }
+      }
     }
-
-    // if (side === "top" || side === "bottom") {
-    //   result.add(`${y}:${side}`);
-    // } else {
-    //   result.add(`${x}:${side}`);
-    // }
   }
 
-  console.log(visited);
-
-  return result;
+  return fences.difference(visited);
 }
 
 function main(f: string): Solution {
@@ -114,30 +124,28 @@ function main(f: string): Solution {
       const area = explore(map, visited, map[i][j], new Set(), fences, i, j);
       p1 += area.size * fences.size;
 
-      if (map[i][j] === "J") {
-        const fences2 = groupFences(fences);
+      const fences2 = groupFences(fences);
 
-        // console.log(area.size, fences2);
-        console.log(
-          JSON.stringify(
-            map.map((l, iX) =>
-              l
-                .map((i, iY) =>
-                  Number.isNaN(i)
-                    ? " . "
-                    : area.has(`${iX},${iY}`)
-                      ? `(${i})`
-                      : ` ${i} `,
-                )
-                .join(""),
-            ),
-            null,
-            2,
-          ),
-        );
-      }
+      // console.log(area.size, fences2.size);
+      // console.log(
+      //   JSON.stringify(
+      //     map.map((l, iX) =>
+      //       l
+      //         .map((i, iY) =>
+      //           Number.isNaN(i)
+      //             ? " . "
+      //             : area.has(`${iX},${iY}`)
+      //               ? `(${i})`
+      //               : ` ${i} `,
+      //         )
+      //         .join(""),
+      //     ),
+      //     null,
+      //     2,
+      //   ),
+      // );
 
-      // p2 += area.size * fences2.size;
+      p2 += area.size * fences2.size;
     }
   }
 
