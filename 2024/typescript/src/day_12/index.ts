@@ -75,23 +75,23 @@ function explore(
   V  V  I  I  I  C  J  J (E)(E)   *
   M  I  I  I  I  I  J  J (E)(E)   *
   M  I  I  I  S  I  J (E)(E)(E)   *
-  M  M  M  I  S  S  J (E)(E)(E)   * ] <-- added to visited, removed in diff
+  M  M  M  I  S  S  J (E)(E)(E)   * ] <-- added to merged, removed in diff
 
 */
 function groupFences(fences: Set<string>): Set<string> {
-  const visited = new Set<string>();
+  const merged = new Set<string>();
 
   for (const fence of fences.values()) {
     const [yx, side] = fence.split(":");
     const [y, x] = yx.split(",");
 
-    if (visited.has(fence)) continue;
+    if (merged.has(fence)) continue;
 
     if (side === "top" || side === "bottom") {
       for (const dir of [-1, 1]) {
         let i = 1;
         while (fences.has(`${y},${Number(x) + dir * i}:${side}`)) {
-          visited.add(`${y},${Number(x) + dir * i}:${side}`);
+          merged.add(`${y},${Number(x) + dir * i}:${side}`);
           i++;
         }
       }
@@ -99,14 +99,14 @@ function groupFences(fences: Set<string>): Set<string> {
       for (const dir of [-1, 1]) {
         let i = 1;
         while (fences.has(`${Number(y) + dir * i},${x}:${side}`)) {
-          visited.add(`${Number(y) + dir * i},${x}:${side}`);
+          merged.add(`${Number(y) + dir * i},${x}:${side}`);
           i++;
         }
       }
     }
   }
 
-  return fences.difference(visited);
+  return fences.difference(merged);
 }
 
 function main(f: string): Solution {
